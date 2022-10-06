@@ -1,0 +1,71 @@
+﻿{% extends "admin/layout.html" %}
+
+{% block content %}
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div>
+        {% if  message  %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+        {% endif %}
+        {% for j in agents_status %}
+            <h5>{{ j[0] }} completed {{ j[1] }} applicants yesterday </h5>
+        {% endfor %}
+        <form method="POST" action="/status_report">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Source</th>
+                        <th scope="col">Interviewed by</th>
+                        <th scope="col">Interview Status</th>
+                        <th scope="col">Comments</th>
+
+                    </tr>
+                </thead>
+                {% for i in details %}
+                <tbody>
+                    <tr>
+                        <!--<th scope="row"></th>-->
+                        <td>{{ i[0] }}</td>
+                        <td>{{ i[1] }}</td>
+                        <td>{{ i[2] }}</td>
+                        <td>
+                            <select class="custom-select mr-sm-2" name="i_{{ i[0] }}" id="inlineFormCustomSelect">
+                                <option selected>Choose</option>
+                                {% for j in interviewer %}
+                                <option value="{{ j }}">{{ j }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td><select class="custom-select mr-sm-2" name="status_{{ i[0] }}" id="inlineFormCustomSelect">
+                                <option selected>Choose</option>
+                                <option value="Selected">Selected</option>
+                                <option value="Rejected">Rejected</option>
+                            </select>
+                        </td>
+                        <td><input type="text" name="comments_{{ i[0] }}" class="form-control" placeholder="Enter comments if any"></td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        {% if error  %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
+
+{% endblock %}
+

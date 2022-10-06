@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h3>Billing: </h3>
+    <img src="./static/images/c1.jpg" class="img-fluid" alt="fruit">
+    <div>
+        
+        <form method="POST" action="/scan">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Quantity </th>
+                        <th scope="col">MRP</th>
+                        <th scope="col">Total</th>
+                    </tr>
+                </thead>
+                {% for i in details %}
+                <tbody>
+                    <tr>
+                        <!--<th scope="row"></th>-->
+                        <td>{{ i[0] }}</td>
+                        <td>{{ i[1] }}</td>
+                        <td>{{ i[2] }}</td>
+                        <td>{{ i[3] }}</td>
+                        <td>{{ i[4] }}</td>
+                    </tr>
+                    
+                </tbody>
+                {% endfor %}
+    
+            </table>
+            <div class="col-md-12 bg-light text-right">
+            </div>
+            <button type="submit" class="btn btn-primary">Scan new fruit</button>
+        </form>
+        {% if error  %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
+
+{% endblock %}
+

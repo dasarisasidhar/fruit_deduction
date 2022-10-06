@@ -1,0 +1,85 @@
+﻿{% extends "admin/layout.html" %}
+
+{% block content %}
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div>
+        {% if  message  %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+        {% endif %}
+        <form method="POST" action="/assign_agent">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Source</th>
+                        <th scope="col">Assign_to</th>
+                    </tr>
+                </thead>
+                {% for i in details %}
+                <tbody>
+                    <tr>
+                        <!--<th scope="row"></th>-->
+                        <td>{{ i[0] }}</td>
+                        <td>{{ i[1] }}</td>
+                        <td>{{ i[2] }}</td>
+                        <td>
+                            <select class="custom-select mr-sm-2" name="{{ i[0] }}" id="inlineFormCustomSelect">
+                                <option selected>Choose</option>
+                                {% for j in agents %}
+                                <option value="{{ j }}">{{ j }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <form class="form-inline" method="GET" action="/extend_page">
+            <div class="pull-right">
+                <div class="form-group mb-2">
+                    <input type="number" name="page_size" class="form-control">
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                    <button type="submit" class="btn btn-primary">go </button>
+                </div>
+            </div>
+         </form>
+        <form class="form-inline" method="POST" action="/assign_all_applications">
+            <div class="form-group mb-2">
+                <label for="text" class="sr-only">text</label>
+                <input type="text" readonly class="form-control-plaintext" id="text" value="Assign all to one agent">
+            </div>
+            {% for i in details %}
+            <input name={{ i[0] }} type='hidden' value='{{ i[0] }}'>
+            {% endfor %}
+            <div class="form-group mx-sm-3 mb-2">
+                <select class="custom-select mr-sm-2" name="agent_name" id="inlineFormCustomSelect">
+                    <option selected>Choose</option>
+                    {% for j in agents %}
+                    <option value="{{ j }}">{{ j }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary mb-2">Confirm </button>
+        </form>
+        {% if error  %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
+
+{% endblock %}

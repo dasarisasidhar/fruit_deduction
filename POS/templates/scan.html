@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<style>
+    .c {
+      height: 200px;
+      position: relative;
+    }
+    
+    .v-center {
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+    }
+    
+</style>
+
+    <form method="POST" action="/scan">
+        <div class="c">
+        <div class="v-center">
+            <button>Scan</button>
+        </div>
+        </div>
+    </form>
+
+
+{% endblock %}

@@ -1,0 +1,67 @@
+﻿
+{% extends 'bootstrap/base.html' %}
+{% block scripts %}
+{{ super() }}
+{{ datepicker.loader() }} {# to load jQuery-ui #}
+{{ datepicker.picker(id=".dp") }}
+{% endblock %}
+{% block content %}
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Telyport Support - {{ title }}</title>
+    <link rel="icon" href="../static/images/logo.png">
+</head>
+<body>
+    <div>
+        <h3>Welcome {{ agent }}</h3>
+        {% if  message  %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+        {% endif %}
+        <form method="POST" action="/update_applicant_status">
+            <input class="form-control" name=email type="hidden" value="{{ agent }}">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Source</th>
+                        <th scope="col">Response status</th>
+                        <th scope="col">Comments</th>
+                        <th scope="col">Interview/call_later Date</th>
+                    </tr>
+                </thead>
+                {% for i in applications %}
+                <tbody>
+                    <tr>
+                        <!--<th scope="row"></th>-->
+                        <td>{{ i[0] }}</td>
+                        <td> <a class="glyphicon glyphicon-earphone" href="tel:{{ i[1] }}">{{ i[1] }}</a></td>
+                        <td>{{ i[2] }}</td>
+                        <td>
+                            <select class="custom-select mr-sm-2" name="res_{{ i[0] }}" id="inlineFormCustomSelect">
+                                <option selected>Choose</option>
+                                {% for j in response %}
+                                <option value="{{ j }}">{{ j }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>  <input type="text" name="comments_{{ i[0] }}" class="form-control" placeholder="Enter comments if any"></td>
+                        <td> <input type="text" name="date_{{ i[0] }}" class="form-control dp" /> </td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        {% if error  %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
+{% endblock %}
